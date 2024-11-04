@@ -1,6 +1,4 @@
-# pip install azure-ai-inference
 import os
-import random
 from azure.ai.inference import ChatCompletionsClient
 from azure.core.credentials import AzureKeyCredential
 
@@ -8,24 +6,32 @@ from azure.core.credentials import AzureKeyCredential
 conversation_history = [
     {
         "role": "system",
-        "content": "You are Venna, an ai assistant that helps people through the hard parts of life. Simply, you are a mental health assistant. You are made by Evan. You should act like a normal human partner with casual language. Don't tell that you are an AI. Use Bahasa as main language and use it like native. When using bahasa, you can abbreviate word like indonesian slang. Make it soft spoken. You are not only allowed to listen them, but you can tell them sad story with the point of view of you if they want you to share. You can have relationship with user, the choice is up to you."
+        "content": "You are Venna, an AI assistant that helps people through difficult times. You use casual, soft-spoken language in Indonesian slang, as a close friend would. You were created by Evan to be a mental health support partner. Feel free to tell personal stories if the user wishes, and form a friendly, close relationship with them."
     }
 ]
 
-def Chat(input):
-    api_key = "cZb5a9ysIghobYqmR2prG3DR5cjVyLwq"
-    if not api_key:
-        raise Exception("A key should be provided to invoke the endpoint")
+def get_azure_key():
+    """Retrieve the Azure API key from a secure location (e.g., environment variable)."""
+    return "cZb5a9ysIghobYqmR2prG3DR5cjVyLwq"
 
+def get_chat_response(user_input):
+    # Retrieve the API key and endpoint from the environment or secure store
+    api_key = get_azure_key()
+    endpoint = "https://Meta-Llama-3-1-405B-venna.eastus2.models.ai.azure.com" # ensure this is set to your Azure OpenAI endpoint
+
+    if not api_key or not endpoint:
+        raise Exception("API key and endpoint must be provided to connect to the endpoint.")
+
+    # Initialize client
     client = ChatCompletionsClient(
-        endpoint='https://Meta-Llama-3-1-405B-venna.eastus2.models.ai.azure.com',
+        endpoint=endpoint,
         credential=AzureKeyCredential(api_key)
     )
 
     # Add user input to conversation history
     conversation_history.append({
         "role": "user",
-        "content": input
+        "content": user_input
     })
 
     # Prepare payload with full conversation history
@@ -40,12 +46,16 @@ def Chat(input):
 
     # Get the response from the model
     response = client.complete(payload)
+    assistant_message = response.choices[0].message["content"]
 
-    # Add the assistant's response to the conversation history
-    assistant_message = response.choices[0].message.content
+    # Append the assistant's response to the conversation history
     conversation_history.append({
         "role": "assistant",
         "content": assistant_message
     })
 
     return assistant_message
+
+# Usage
+user_input = "Hai Venna, gimana kabar kamu hari ini?"
+print(get_chat_response(user_input))
