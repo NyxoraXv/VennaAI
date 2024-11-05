@@ -14,7 +14,7 @@ def get_azure_key():
     """Retrieve the Azure API key from a secure location (e.g., environment variable)."""
     return "cZb5a9ysIghobYqmR2prG3DR5cjVyLwq"
 
-def get_chat_response(user_input):
+def Chat(user_input):
     # Retrieve the API key and endpoint from the environment or secure store
     api_key = get_azure_key()
     endpoint = "https://Meta-Llama-3-1-405B-venna.eastus2.models.ai.azure.com" # ensure this is set to your Azure OpenAI endpoint
@@ -55,7 +55,3 @@ def get_chat_response(user_input):
     })
 
     return assistant_message
-
-# Usage
-user_input = "Hai Venna, gimana kabar kamu hari ini?"
-print(get_chat_response(user_input))
