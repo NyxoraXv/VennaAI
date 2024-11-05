@@ -2,7 +2,7 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
-name: Build and deploy Python app to Azure Web App - Venna
+name: Build and deploy Python app to Azure Web App - venna
 
 on:
   push:
@@ -65,14 +65,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B3C5D028A0B54EAA87EC2F5EF828AF4E }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_CC59BDC9E2F04B9692404F3A0FDC493B }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_95899DAEB061442ABB0AD4E27F9B0659 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_5A082EEAE7774F67A5B515E471208156 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_23AEA324AE6C453889632B27FF3CCFC2 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6CFCC6DBACAA4ECBBE6F7536CDBA285D }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'Venna'
+          app-name: 'venna'
           slot-name: 'Production'
           
